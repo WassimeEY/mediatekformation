@@ -11,7 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @author emds
  */
-class AccueilController extends AbstractController{
+class AccueilController extends AbstractController
+{
     
     /**
      * @var FormationRepository
@@ -19,23 +20,25 @@ class AccueilController extends AbstractController{
     private $repository;
     
     /**
-     * 
      * @param FormationRepository $repository
      */
-    public function __construct(FormationRepository $repository) {
+    public function __construct(FormationRepository $repository)
+    {
         $this->repository = $repository;
-    }   
+    }
     
     #[Route('/', name: 'accueil')]
-    public function index(): Response{
+    public function index(): Response
+    {
         $formations = $this->repository->findAllLasted(2);
         return $this->render("pages/accueil.html.twig", [
             'formations' => $formations
-        ]); 
+        ]);
     }
     
     #[Route('/cgu', name: 'cgu')]
-    public function cgu(): Response{
-        return $this->render("pages/cgu.html.twig"); 
+    public function cgu(): Response
+    {
+        return $this->render("pages/cgu.html.twig");
     }
 }

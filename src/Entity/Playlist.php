@@ -82,30 +82,27 @@ class Playlist
 
     public function removeFormation(Formation $formation): static
     {
-        if ($this->formations->removeElement($formation)) {
+        if ($this->formations->removeElement($formation) && $formation->getPlaylist() === $this) {
             // set the owning side to null (unless already changed)
-            if ($formation->getPlaylist() === $this) {
-                $formation->setPlaylist(null);
-            }
+            $formation->setPlaylist(null);
         }
-
         return $this;
     }
-    
+
     /**
      * @return Collection<int, string>
      */
-    public function getCategoriesPlaylist() : Collection
+    public function getCategoriesPlaylist(): Collection
     {
         $categories = new ArrayCollection();
-        foreach($this->formations as $formation){
+        foreach ($this->formations as $formation) {
             $categoriesFormation = $formation->getCategories();
-            foreach($categoriesFormation as $categorieFormation)
-            if(!$categories->contains($categorieFormation->getName())){
-                $categories[] = $categorieFormation->getName();
+            foreach ($categoriesFormation as $categorieFormation) {
+                if (!$categories->contains($categorieFormation->getName())) {
+                    $categories[] = $categorieFormation->getName();
+                }
             }
         }
         return $categories;
     }
-        
 }
