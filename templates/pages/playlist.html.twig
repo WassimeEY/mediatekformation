@@ -12,6 +12,7 @@
             <br /><br />
             <strong>description :</strong><br />
                 {{ playlist.description|nl2br }}
+            <strong>nombre de formations : </strong> {{ playlist.formations|length }}
         </div>
         <div class="col">
             <!-- boucle sur l'affichage des formations -->
@@ -33,6 +34,5 @@
                 </div>
             {% endfor %}
         </div>
-        
     </div>
 {% endblock %}

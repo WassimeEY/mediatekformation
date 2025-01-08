@@ -37,9 +37,11 @@ class PlaylistsController extends AbstractController
     
     private const CHEMINPLAYLISTS = "pages/playlists.html.twig";
     
-    public function __construct(PlaylistRepository $playlistRepository,
-            CategorieRepository $categorieRepository, FormationRepository $formationRespository)
-    {
+    public function __construct(
+        PlaylistRepository $playlistRepository,
+        CategorieRepository $categorieRepository,
+        FormationRepository $formationRespository
+    ) {
         $this->playlistRepository = $playlistRepository;
         $this->categorieRepository = $categorieRepository;
         $this->formationRepository = $formationRespository;
@@ -63,8 +65,15 @@ class PlaylistsController extends AbstractController
     #[Route('/playlists/tri/{champ}/{ordre}', name: 'playlists.sort')]
     public function sort($champ, $ordre): Response
     {
-        if ($champ == "name") {
-            $playlists = $this->playlistRepository->findAllOrderByName($ordre);
+        switch($champ){
+            case "name":
+                $playlists = $this->playlistRepository->findAllOrderByName($ordre);
+                break;
+            case "formations":
+                $playlists = $this->playlistRepository->findAllOrderByFormationsLen($ordre);
+                break;
+            default:
+                break;
         }
         $categories = $this->categorieRepository->findAll();
         return $this->render(self::CHEMINPLAYLISTS, [
