@@ -1,0 +1,24 @@
+
+
+{% block body %}
+    {{ form_start(formation_form) }}
+    <div class="col">
+            {{ form_row(formation_form.title) }}
+    </div>
+    <div class="col">
+            {{ form_row(formation_form.description) }}
+    </div>
+    <div class="col">
+            {{ form_row(formation_form.publishedAt) }}
+        </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(formation_form.playlist) }}
+        </div>
+        <div class="col">
+            {{ form_row(formation_form.categories) }}
+        </div>
+    </div>
+    {{ form_row(formation_form.submit) }}
+    {{ form_end(formation_form) }}
+{% endblock %}

@@ -22,6 +22,9 @@ class Formation
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @Assert\LessThanOrEqual("today")
+     */
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $publishedAt = null;
 
