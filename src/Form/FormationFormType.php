@@ -10,11 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use App\Form\Assert;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 
 
@@ -38,13 +34,13 @@ class FormationFormType extends AbstractType
             ->add('description')
             ->add('playlist', EntityType::class, [
                 'class' => Playlist::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'required' => true,
                 
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categorie::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'multiple' => true,
             ])
             ->add('submit', SubmitType::class, array('label' => 'Enregistrer'));

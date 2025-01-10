@@ -105,4 +105,12 @@ class Playlist
         }
         return $categories;
     }
+    
+    public function __toString(): string
+    {
+        if($this->getName() != null){
+            return $this->getName();
+        }
+        return "";
+    }
 }

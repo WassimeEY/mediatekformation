@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of AdminAccueilController
  *
- * @author Zawi
+ * @author Wassime EY
  */
 class AdminAccueilController extends AbstractController
 {

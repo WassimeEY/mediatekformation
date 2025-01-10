@@ -1,0 +1,15 @@
+
+{% block body %}
+    {{ form_start(playlist_form) }}
+    <div class="col">
+            {{ form_row(playlist_form.name) }}
+    </div>
+    <div class="col">
+            {{ form_row(playlist_form.description) }}
+    </div>
+    <div style="display:none;">
+        {{ form_row(playlist_form.formations) }}
+    </div>
+    {{ form_row(playlist_form.submit) }}
+    {{ form_end(playlist_form) }}
+{% endblock %}

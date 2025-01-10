@@ -1,0 +1,84 @@
+{% extends "baseback.html.twig" %}
+{% block body %}
+    <table class="table table-striped">
+    <caption>"Liste des playlists"</caption>
+        <thead>
+            <tr>
+                <th class="text-left align-top" scope="col">
+                    playlist<br />
+                    <a href="{{ path('gestionPlaylists.sort', {champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('gestionPlaylists.sort', {champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                    <form class="form-inline mt-1" method="POST" action="{{ path('gestionPlaylists.findallcontain', {champ:'name'}) }}">
+                        <div class="form-group mr-1 mb-2">
+                            <input type="text" class="sm" name="recherche" 
+                                   value="{% if valeur|default and not table|default %}{{ valeur }}{% endif %}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
+                            <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                        </div>
+                    </form>                    
+                </th>
+                <th class="text-left align-top" scope="col">
+                    nb de formations<br />
+                    <a href="{{ path('gestionPlaylists.sort', {champ:'formations', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('gestionPlaylists.sort', {champ:'formations', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                </th>
+                <th class="text-left align-top" scope="col">
+                    catégories
+                    <form class="form-inline mt-1" method="POST" action="{{ path('gestionPlaylists.findallcontain', {champ:'id', table:'categories'}) }}">
+                        <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit()">
+                            <option value=""></option>
+                            {% for categorie in categories %}
+                                <option 
+                                    {% if valeur|default and valeur==categorie.id %} 
+                                        selected
+                                    {% endif %} 
+                                    value="{{ categorie.id }}">{{ categorie.name }}
+                                </option>
+                            {% endfor %}
+                        </select>                    
+                    </form>            
+                </th>
+                <th class="text-center align-top" scope="col">
+                    <a href="{{ path('gestionPlaylists.ajout') }}" class="btn btn-primary btn active" role="button">Ajouter</a>
+                </th>			
+            </tr>
+        </thead>
+        <tbody>
+            <!-- boucle sur les playlists -->
+            {% if playlists|length > 0 %}
+                {% for k in 0..playlists|length-1 %}
+                    <tr class="align-middle">
+                        <td>
+                            <h5 class="text-info">
+                                {{ playlists[k].name }}
+                            </h5>
+                        </td>
+                        <td>
+                            <h5 class="text-info">
+                                {{ playlists[k].formations|length }}
+                            </h5>
+                        </td>
+                        <td class="text-left">
+                            {% set categories = playlists[k].categoriesplaylist %}
+                            {% if categories|length > 0  %}
+                                {% for c in 0..categories|length-1 %}
+                                    &nbsp;{{ categories[c] }}                                  
+                                {% endfor %}
+                            {% endif %}
+                        </td>            					
+                        <td class="text-center">
+                            <a href="{{ path('gestionPlaylists.modifier', {id:playlists[k].id}) }}" class="btn btn-primary btn-sm active" role="button">Modifier</a>
+                        </td>
+                        <td class="text-center">
+                            {% if playlists[k].formations|length == 0 %}
+                                <a href="{{ path('gestionPlaylists.suppr', {id:playlists[k].id}) }}" onclick="return confirm('Êtes-vous sûr de supprimer cette playlist définitivement ?')" class="btn btn-danger btn-sm active" role="button">Supprimer</a>
+                            {% else %}
+                                <button class="btn btn-secondary btn-sm active">Supprimer</button>
+                            {% endif %}
+                        </td> 					
+                    </tr>
+                {% endfor %}	
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -13,7 +13,7 @@ use App\Entity\Formation;
 /**
  * Description of AdminGestionFormationsController
  *
- * @author Zawi
+ * @author Wassime EY
  */
 class AdminGestionFormationsController extends AbstractController
 {
@@ -49,7 +49,7 @@ class AdminGestionFormationsController extends AbstractController
         ]);
     }
 
-    #[Route('/formations/tri/{champ}/{ordre}/{table}', name: 'gestionFormations.sort')]
+    #[Route('/admin/formations/tri/{champ}/{ordre}/{table}', name: 'gestionFormations.sort')]
     public function sort($champ, $ordre, $table=""): Response
     {
         $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
@@ -60,7 +60,7 @@ class AdminGestionFormationsController extends AbstractController
         ]);
     }
 
-    #[Route('/formations/recherche/{champ}/{table}', name: 'gestionFormations.findallcontain')]
+    #[Route('/admin/formations/recherche/{champ}/{table}', name: 'gestionFormations.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response
     {
         $valeur = $request->get("recherche");

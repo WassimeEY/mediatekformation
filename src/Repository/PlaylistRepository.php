@@ -29,8 +29,18 @@ class PlaylistRepository extends ServiceEntityRepository
     }
     
     /**
+     * Supprime la playlist seulement si elle n'a aucune formation.
+     * @param Playlist $entity
+     */
+    public function removeSiAucuneFormation(Playlist $entity): void
+    {
+        if($entity->getFormations()->count() == 0){
+            $this->remove($entity);
+        }
+    }
+    
+    /**
      * Retourne toutes les playlists triées sur le nom de la playlist
-     * @param type $champ
      * @param type $ordre
      * @return Playlist[]
      */
@@ -97,4 +107,5 @@ class PlaylistRepository extends ServiceEntityRepository
                             ->getResult();
         }
     }
+        
 }
