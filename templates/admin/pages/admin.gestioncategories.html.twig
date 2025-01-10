@@ -1,0 +1,44 @@
+{% extends "baseback.html.twig" %}
+{% block body %}
+    <table class="table table-striped">
+    <caption>"Liste des catégories"</caption>
+        <thead>
+            <tr>
+                <th class="text-left align-top" scope="col">
+                    catégorie<br />
+                    <a href="{{ path('gestionCategories.sort', {champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('gestionCategories.sort', {champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                    <form class="form-inline mt-1" method="POST" action="{{ path('gestionCategories.findallcontain', {champ:'name'}) }}">
+                        <div class="form-group mr-1 mb-2">
+                            <input type="text" class="sm" name="recherche" 
+                                   value="{% if valeur|default and not table|default %}{{ valeur }}{% endif %}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_title') }}">
+                            <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                        </div>
+                    </form>                    
+                </th>
+                <th class="text-left align-top" scope="col">
+                    {% include '/admin/pages/admin.categorie.ajout.html.twig' %}
+                </th>	
+            </tr>
+        </thead>
+        <tbody>
+            {% for categorie in categories %}
+                <tr class="align-middle">
+                    <td>
+                        <h5 class="text-info">
+                            {{ categorie.name }}
+                        </h5>
+                    </td>
+                    <td class="text-center">
+                        {% if categorie.formations|length == 0 %}
+                            <a href="{{ path('gestionCategories.suppr', {id:categorie.id}) }}" onclick="return confirm('Êtes-vous sûr de supprimer cette catégorie définitivement ?')" class="btn btn-danger btn-sm active" role="button">Supprimer</a>
+                        {% else %}
+                            <button class="btn btn-secondary btn-sm active">Supprimer</button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

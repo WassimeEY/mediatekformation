@@ -158,4 +158,11 @@ class Formation
         return $this;
     }
     
+    public function __toString(): string
+    {
+        if($this->getTitle() != null){
+            return $this->getTitle();
+        }
+        return "";
+    }
 }

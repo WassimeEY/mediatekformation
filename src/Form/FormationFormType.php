@@ -24,7 +24,10 @@ class FormationFormType extends AbstractType
                 'label' => 'Date',
                 'required' => true,
                 'constraints' => [
-                  new LessThanOrEqual('today')
+                  new LessThanOrEqual([
+                      'value' => 'today',
+                      'message' => "La date ne doit pas dépasser celle d'aujourd'hui"
+                  ])
                 ],
             ])
             ->add('title', null, [

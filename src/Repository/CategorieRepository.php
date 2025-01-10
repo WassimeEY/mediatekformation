@@ -28,21 +28,67 @@ class CategorieRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
     
-    /**
-     * Retourne la liste des catégories des formations d'une playlist
-     * @param type $idPlaylist
-     * @return array
+     /**
+     * Supprime la catégorie seulement si elle n'a aucune formation.
+     * @param Categorie $entity
      */
-    public function findAllForOnePlaylist($idPlaylist): array
+    public function removeSiAucuneFormation(Categorie $entity): void
     {
-        return $this->createQueryBuilder('c')
-                ->join('c.formations', 'f')
-                ->join('f.playlist', 'p')
-                ->where('p.id=:id')
-                ->setParameter('id', $idPlaylist)
-                ->orderBy('c.name', 'ASC')
-                ->getQuery()
-                ->getResult();
+        if($entity->getFormations()->count() == 0){
+            $this->remove($entity);
+        }
+    }
+    
+        /**
+     * Retourne toutes les catégories triées sur un champ
+     * @param type $champ
+     * @param type $ordre
+     * @param type $table si $champ dans une autre table
+     * @return Categorie[]
+     */
+    public function findAllOrderBy($champ, $ordre, $table = ""): array
+    {
+        if ($table == "") {
+            return $this->createQueryBuilder('c')
+                            ->orderBy('c.' . $champ, $ordre)
+                            ->getQuery()
+                            ->getResult();
+        } else {
+            return $this->createQueryBuilder('c')
+                            ->join('c.' . $table, 't')
+                            ->orderBy('t.' . $champ, $ordre)
+                            ->getQuery()
+                            ->getResult();
+        }
+    }
+    
+        /**
+     * Enregistrements dont un champ contient une valeur
+     * ou tous les enregistrements si la valeur est vide
+     * @param type $champ
+     * @param type $valeur
+     * @param type $table si $champ dans une autre table
+     * @return Categorie[]
+     */
+    public function findByContainValue($champ, $valeur, $table = ""): array
+    {
+        if ($valeur == "") {
+            return $this->findAll();
+        }
+        if ($table == "") {
+            return $this->createQueryBuilder('c')
+                            ->where('c.' . $champ . ' LIKE :valeur')
+                            ->setParameter('valeur', '%' . $valeur . '%')
+                            ->getQuery()
+                            ->getResult();
+        } else {
+            return $this->createQueryBuilder('c')
+                            ->join('c.' . $table, 't')
+                            ->where('t.' . $champ . ' LIKE :valeur')
+                            ->setParameter('valeur', '%' . $valeur . '%')
+                            ->getQuery()
+                            ->getResult();
+        }
     }
     
 }

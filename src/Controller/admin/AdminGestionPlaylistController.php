@@ -16,7 +16,7 @@ use App\Entity\Playlist;
  *
  * @author Wassime EY
  */
-class AdminGestionPlaylistsController extends AbstractController
+class AdminGestionPlaylistController extends AbstractController
 {
     
     /**

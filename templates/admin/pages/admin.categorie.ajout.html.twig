@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {{ form_start(categorie_form) }}
+    <div class="col">
+            {{ form_row(categorie_form.name) }}
+    </div>
+    <div class="col">
+        {{ form_row(categorie_form.submit) }}
+    </div>
+    {{ form_end(categorie_form) }}
+{% endblock %}
