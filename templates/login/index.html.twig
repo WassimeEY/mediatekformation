@@ -1,0 +1,18 @@
+{% extends 'basefront.html.twig' %}
+
+{% block body %}
+    <h3>Authentification à la partie Admin:</h3>
+    <form action="{{ path('app_login') }}" method="post">
+        <label class="form-label required" for="username">Nom d'utilisateur:</label>
+        <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required>
+
+        <label class="form-label required" for="password">Mot de passe:</label>
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        <input class="form-control" type="password" id="password" name="_password" required>
+        <br></br>
+        <button class="btn-primary btn" type="submit">Se connecter</button>
+    {% if error %}
+        <div style='color: red'>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    </form>
+{% endblock %}
