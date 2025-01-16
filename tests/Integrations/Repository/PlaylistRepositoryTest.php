@@ -5,14 +5,17 @@ use App\Repository\PlaylistRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
-
 /**
  * Description of PlaylistRepositoryTest
- *
- * @author Zawi
+ * Classe de test du repository Playlist, utilise le Kernel et le Container pour réaliser les tests.
+ * @author Wassime EY
  */
 class PlaylistRepositoryTest extends KernelTestCase
 {
+    /**
+     * Retourne le repository playlist après avoir "allumé" le Kernel et après utilisé le container pour récupérer le repository.
+     * @return PlaylistRepository Le repository playlist retourné.
+     */
     public function getRepository() : PlaylistRepository
     {
         self::bootKernel();
@@ -21,6 +24,10 @@ class PlaylistRepositoryTest extends KernelTestCase
         return $playlistRepository;
     }
     
+    /**
+     * Test d'intégration permettant de vérifier que la suppression de playlist se déroule comme prévu. Se base sur l'ancien et le nouveau nombre de playlist.
+     * @return void
+     */
     public function testRemoveSiAucuneFormation() : void
     {
         $playlistRepository = $this->getRepository();
@@ -61,6 +68,11 @@ class PlaylistRepositoryTest extends KernelTestCase
         $this->verifTriCorrecte($resultDESC, "DESC");
     }
     
+    /**
+     * Permet de vérifier le tri de playlist que ça soit de manière croissant ou décroissant, le tri se fait sur le nombre de formations dans la playlist.
+     * @param type $result La collection de playlist.
+     * @param type $ordre L'ordre de tri en str, "ASC" ou "DESC".
+     */
     public function verifTriCorrecte($result, $ordre)
     {
         if($ordre == "DESC")
@@ -85,6 +97,11 @@ class PlaylistRepositoryTest extends KernelTestCase
         $this->assertEquals($problemeTrie, false);
     }
     
+    /**
+     * Permet de simplement récupérer le nombre de playlist dans la collection.
+     * @param type $playlists La collection de playlist en question.
+     * @return int Le compte total.
+     */
     public function countPlaylistsArray($playlists) : int
     {
         $count = 0;

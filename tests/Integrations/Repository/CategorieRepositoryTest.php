@@ -9,11 +9,15 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Description of CategorieRepositoryTest
- *
+ * Classe de test du repository Categorie, utilise le Kernel et le Container pour réaliser les tests.
  * @author Wassime EY
  */
 class CategorieRepositoryTest extends KernelTestCase
 {
+    /**
+     * Permet de rapidement récupérer le repository, en "allumant" le kernel et en utilisant le container pour récupérer le repository.
+     * @return CategorieRepository Le repository en question.
+     */
     public function getRepository() : CategorieRepository
     {
         self::bootKernel();
@@ -22,6 +26,10 @@ class CategorieRepositoryTest extends KernelTestCase
         return $categorieRepository;
     }
     
+    /**
+     * Test d'intégration sur le repository Categorie, plus précisément sur la méthode findAllOrderByName(). On va vérifier que le tri se déroule comme prévu.
+     * @return void
+     */
     public function testFindAllOrderByName() : void
     {
         $categorieRepository = $this->getRepository();
@@ -31,6 +39,11 @@ class CategorieRepositoryTest extends KernelTestCase
         $this->verifTriCorrecte($resultDESC, "DESC");        
     }
 
+    /**
+     * Vérifie le tri de la collection $result basé sur l'$ordre donné.
+     * @param type $result La collection.
+     * @param type $ordre L'ordre du tri prévu, "ASC" ou "DESC".
+     */
     public function verifTriCorrecte($result, $ordre)
     {
         if($ordre == "DESC")

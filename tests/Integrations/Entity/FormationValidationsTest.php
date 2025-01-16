@@ -6,12 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Description of FormationValidationsTest
- *
- * @author Zawi
+ * Classe de test d'intégration sur les contraites de validation de l'entité Formation.
+ * @author Wassime EY
  */
 class FormationValidationsTest extends KernelTestCase
 {
-    public function testTruc() : void
+    /**
+     * Test d'intégration sur la contrainte de validation de la variable $publishedAt de l'entité Formation, on vérifie qu'il y'a bel et bien une erreur si on définit une date dépassant celle d'ajoud'hui.
+     * @return void
+     */
+    public function testContrainteValidationPublishedAt() : void
     {
         self::bootKernel();
         $formationTest = new Formation();
@@ -20,8 +24,5 @@ class FormationValidationsTest extends KernelTestCase
         $validator = $container->get("validator");
         $errors = $validator->validate($formationTest);
         $this->assertCount(1, $errors);
-        foreach ($errors as $err) {
-            echo $err->getMessage();  
-        }
-        }
+    }
 }

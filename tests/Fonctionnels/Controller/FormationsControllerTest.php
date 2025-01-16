@@ -6,12 +6,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Description of FormationsControllerTest
- *
- * @author Zawi
+ * Classe de test fonctionnel du contrôlleur Formations, on crée un client et on l'utilise pour avoir des réponses HTTP après l'envoie de requête.
+ * @author Wassime EY
  */
 class FormationsControllerTest extends WebTestCase
 {
     
+    /**
+     * Test fonctionnel permettant de vérifier que le tri des formations sur leurs titres fonctionne comme prévu. Se base sur le premier élément <h5> de la page.
+     * @return void
+     */
     public function testFormationsTriTitle() : void
     {
         $client = self::createClient();
@@ -22,6 +26,10 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains("h5", "UML : Diagramme de paquetages");
     }
     
+    /**
+     * Test fonctionnel permettant de vérifier que le tri des formations sur leurs playlists, ou plutôt le nom de la playlist, fonctionne comme prévu. Se base sur le premier élément <h5> de la page.
+     * @return void
+     */
     public function testFormationsTriPlaylist() : void
     {
         $client = self::createClient();
@@ -32,6 +40,10 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains("h5", "C# : ListBox en couleur");
     }
     
+    /**
+     * Test fonctionnel permettant de vérifier que le tri des formations sur leurs dates fonctionne comme prévu. Se base sur le premier élément <h5> de la page.
+     * @return void
+     */
     public function testFormationsTriDate() : void
     {
         $client = self::createClient();
@@ -42,6 +54,10 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains("h5", "Eclipse n°1");
     }
     
+    /**
+     * Test fonctionnel permettant de vérifier que le filtre des formations sur leurs catégories fonctionne comme prévu. Se base sur le premier élément <h5> de la page et sur le nombre d'élément <tr>, en prenant en compte que l'en tête de la liste est aussi un <tr>.
+     * @return void
+     */
     public function testFormationsFiltreCategorie() : void
     {
         $client = self::createClient();
@@ -52,6 +68,10 @@ class FormationsControllerTest extends WebTestCase
         $this->assertCount(9, $crawler->filter('tr')); //On doit ajouter 1 dans le nb attendu car la balise tr est utilisé pour l'en tête de la liste de formation, donc on attend ici 8 résultats.
     }
     
+    /**
+     * Test fonctionnel permettant de vérifier que le filtre des formations sur leurs titres fonctionne comme prévu. Se base sur le premier élément <h5> de la page et sur le nombre d'élément <tr>, en prenant en compte que l'en tête de la liste est aussi un <tr>.
+     * @return void
+     */
     public function testFormationsFiltreTitle() : void
     {
         $client = self::createClient();
@@ -62,6 +82,10 @@ class FormationsControllerTest extends WebTestCase
         $this->assertCount(2, $crawler->filter('tr')); //On doit ajouter 1 dans le nb attendu car la balise tr est utilisé pour l'en tête de la liste de formation, donc on attend ici 1 résultat.
     }
     
+    /**
+     * Test fonctionnel permettant de vérifier que le filtre des formations sur leurs noms de playlists fonctionne comme prévu. Se base sur le premier élément <h5> de la page et sur le nombre d'élément <tr>, en prenant en compte que l'en tête de la liste est aussi un <tr>.
+     * @return void
+     */
     public function testFormationsFiltrePlaylist() : void
     {
         $client = self::createClient();
@@ -72,6 +96,10 @@ class FormationsControllerTest extends WebTestCase
         $this->assertCount(11, $crawler->filter('tr')); //On doit ajouter 1 dans le nb attendu car la balise tr est utilisé pour l'en tête de la liste de formation, donc on attend ici 10 résultats.
     }
     
+    /**
+     * Test fonctionnel qui va tenter de se connecter à la page de détail d’une formation, ici la formation d'id 8, et vérifiera que le code retourné par la réponse est bien 200, ensuite la méthode va vérifier que le premier élément <h4> est celui attendu.
+     * @return void
+     */
     public function testFormationDetail() : void
     {
         $client = self::createClient();
@@ -80,6 +108,12 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains("h4", "Eclipse n°1 : installation de l'IDE");
     }
     
+    /**
+     * Permet de rapidement charger une page et de récupérer la réponse.
+     * @param type $client Le client qui permettra de gérer la reqûete.
+     * @param type $url L'url ou plutôt le chemin "path" d'url vers la page.
+     * @return Response
+     */
     public function getResponse($client ,$url) : Response
     {
         $client->request("GET", $url);

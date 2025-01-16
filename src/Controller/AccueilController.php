@@ -7,19 +7,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AccueilController
- *
+ * Controlleur de l'acceuil front.
  * @author emds
  */
 class AccueilController extends AbstractController
 {
     
     /**
+     *  Variable du repository
      * @var FormationRepository
      */
     private $repository;
     
     /**
+     * Constructeur du controleur.
      * @param FormationRepository $repository
      */
     public function __construct(FormationRepository $repository)
@@ -27,6 +28,10 @@ class AccueilController extends AbstractController
         $this->repository = $repository;
     }
     
+    /**
+     * Gère la route d'index.
+     * @return Response
+     */
     #[Route('/', name: 'accueil')]
     public function index(): Response
     {
@@ -36,6 +41,10 @@ class AccueilController extends AbstractController
         ]);
     }
     
+    /**
+     * Gère la route des condtions générales d'utilisation.
+     * @return Response
+     */
     #[Route('/cgu', name: 'cgu')]
     public function cgu(): Response
     {

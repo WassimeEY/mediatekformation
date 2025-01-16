@@ -7,6 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Entité User, créé automatiquement.
+ */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -31,16 +34,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = "admin";
 
+    /**
+     * Retourne l'id de l'user.
+     * @return int|null L'id de l'user, peut être null.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Retourne le username de l'user.
+     * @return string|null Le username de l'user, peut être null.
+     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
+    /**
+     * Permet de définir la variable $username.
+     * @param string $username Le nouveau username.
+     * @return static L'entité User.
+     */
     public function setUsername(string $username): static
     {
         $this->username = $username;

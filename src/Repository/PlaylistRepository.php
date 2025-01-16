@@ -9,11 +9,6 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Playlist>
  */
-/**
- * Description of CategorieRepositoryTest
- *
- * @author Wassime EY
- */
 class PlaylistRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

@@ -8,18 +8,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * Description of AdminAccueilController
- *
+ * Controleur coté admin de l'acceuil.
  * @author Wassime EY
  */
 class AdminAccueilController extends AbstractController
 {
-/**
+    /**
+     * 
      * @var FormationRepository
      */
     private $repository;
     
     /**
+     * Le constructeur du controleur.
      * @param FormationRepository $repository
      */
     public function __construct(FormationRepository $repository)
@@ -27,6 +28,10 @@ class AdminAccueilController extends AbstractController
         $this->repository = $repository;
     }
     
+    /**
+     * Gère la route d'index.
+     * @return Response
+     */
     #[Route('/admin', name: 'adminAccueil')]
     public function index(): Response
     {

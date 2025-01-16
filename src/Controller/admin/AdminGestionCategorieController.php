@@ -10,29 +10,36 @@ use App\Entity\Categorie;
 use App\Form\CategorieFormType;
 
 /**
- * Description of AdminGestionCategorieController
- *
+ * Controleur coté admin de la gestion des catégories.
  * @author Wassime EY
  */
 class AdminGestionCategorieController extends AbstractController
 {
     
     /**
-     *
+     * Variable du repository categorie.
      * @var CategorieRepository
      */
     private $categorieRepository;
 
-   
-    
+    /**
+     * Constante str pour le chemin vers la page de gestion des catégories.
+     */
     private const CHEMINGESTIONCATEGORIES = "/admin/pages/admin.gestioncategories.html.twig";
     
+    /**
+     * Constructeur du controleur.
+     * @param CategorieRepository $categorieRepository
+     */
     public function __construct(CategorieRepository $categorieRepository) 
     {
         $this->categorieRepository = $categorieRepository;
     }
 
-    
+    /**
+     * Gère la route d'index
+     * @return Response
+     */
     #[Route('/admin/categories', name: 'gestionCategories')]
     public function index(Request $request): Response
     {
@@ -50,6 +57,12 @@ class AdminGestionCategorieController extends AbstractController
         ]);
     }
 
+    /**
+     * Gère la route de trie des catégorie sur la page de gestion.
+     * @param type $ordre
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/categories/tri/name/{ordre}', name: 'gestionCategories.sort')]
     public function sort($ordre, Request $request): Response
     {
@@ -67,6 +80,13 @@ class AdminGestionCategorieController extends AbstractController
         ]);
     }
 
+    /**
+     * Gère la route de recherche, et donc de filtre, ici pour les categories.
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
     #[Route('/admin/categories/recherche/{champ}', name: 'gestionCategories.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response
     {
@@ -87,7 +107,11 @@ class AdminGestionCategorieController extends AbstractController
         ]);
     }
     
-    
+    /**
+     * Gère la route de suppression de catégorie, il n'est pas possible de supprimer une catégorie si elle a des formations.
+     * @param type $id Id de la catégorie à supprimer.
+     * @return Response
+     */
     #[Route('/admin/categories/suppr/{id}', name: 'gestionCategories.suppr')]
     public function supprimerCategorie($id): Response
     {

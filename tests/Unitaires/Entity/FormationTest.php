@@ -8,11 +8,15 @@ use PHPUnit\Framework\assertEquals;
 use PHPUnit\Framework\TestCase;
 /**
  * Description of FormationTest
- *
- * @author Zawi
+ * Classe de test unitaire sur l'entité Formation.
+ * @author Wassime EY
  */
 class FormationTest extends TestCase
 {
+    /**
+     * Test unitaire qui permet de vérifier que la méthode getPublishedAtString() de l'entité Formation fonctionne comme prévu.
+     * @return void
+     */
     public function testGetPublishedAtString() : void
     {
         $formationTest = new Formation();
