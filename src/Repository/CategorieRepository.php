@@ -39,27 +39,17 @@ class CategorieRepository extends ServiceEntityRepository
         }
     }
     
-        /**
-     * Retourne toutes les catégories triées sur un champ
-     * @param type $champ
+     /**
+     * Retourne toutes les catégories triées sur le nom
      * @param type $ordre
-     * @param type $table si $champ dans une autre table
      * @return Categorie[]
      */
-    public function findAllOrderBy($champ, $ordre, $table = ""): array
+    public function findAllOrderByName($ordre): array
     {
-        if ($table == "") {
-            return $this->createQueryBuilder('c')
-                            ->orderBy('c.' . $champ, $ordre)
+        return $this->createQueryBuilder('c')
+                            ->orderBy('c.name' , $ordre)
                             ->getQuery()
                             ->getResult();
-        } else {
-            return $this->createQueryBuilder('c')
-                            ->join('c.' . $table, 't')
-                            ->orderBy('t.' . $champ, $ordre)
-                            ->getQuery()
-                            ->getResult();
-        }
     }
     
      /**
@@ -81,7 +71,6 @@ class CategorieRepository extends ServiceEntityRepository
         /**
      * Enregistrements dont un champ contient une valeur
      * ou tous les enregistrements si la valeur est vide
-     * @param type $champ
      * @param type $valeur
      * @param type $table si $champ dans une autre table
      * @return Categorie[]

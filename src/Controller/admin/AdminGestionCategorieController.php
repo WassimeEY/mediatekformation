@@ -50,17 +50,10 @@ class AdminGestionCategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/categories/tri/{champ}/{ordre}', name: 'gestionCategories.sort')]
-    public function sort($champ, $ordre, Request $request): Response
+    #[Route('/admin/categories/tri/name/{ordre}', name: 'gestionCategories.sort')]
+    public function sort($ordre, Request $request): Response
     {
-        switch($champ){
-            case "name":
-                $categories = $this->categorieRepository->findAllOrderBy($champ, $ordre);
-                break;
-            default:
-                $categories = $this->categorieRepository->findAll();
-                break;
-        }
+        $categories = $this->categorieRepository->findAllOrderByName($ordre);
         $categorie = new Categorie();
         $form = $this->createForm(CategorieFormType::class, $categorie);
         $form->handleRequest($request);
@@ -74,7 +67,7 @@ class AdminGestionCategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/categories/recherche/{champ}/{table}', name: 'gestionCategories.findallcontain')]
+    #[Route('/admin/categories/recherche/{champ}', name: 'gestionCategories.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response
     {
         $valeur = $request->get("recherche");

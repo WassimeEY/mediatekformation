@@ -9,6 +9,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Playlist>
  */
+/**
+ * Description of CategorieRepositoryTest
+ *
+ * @author Wassime EY
+ */
 class PlaylistRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -29,7 +34,7 @@ class PlaylistRepository extends ServiceEntityRepository
     }
     
     /**
-     * Supprime la playlist seulement si elle n'a aucune formation.
+     * Supprime la playlist si et seulement si elle n'a aucune formation.
      * @param Playlist $entity
      */
     public function removeSiAucuneFormation(Playlist $entity): void
@@ -57,19 +62,30 @@ class PlaylistRepository extends ServiceEntityRepository
    
     /**
      * Retourne toutes les playlists triées sur le nombre de formation qu'elle contient
-     * @param type $champ
      * @param type $ordre
      * @return Playlist[]
      */
     public function findAllOrderByFormationsLen($ordre): array
     {
-        return $this->createQueryBuilder('p')
-                ->addSelect('COUNT(p.id) AS HIDDEN count')
-                ->leftJoin('p.formations', 'f')
-                ->groupBy('f.playlist')
-                ->orderBy('count', $ordre)
+        $playlistsAvecAucuneFormations = $this->createQueryBuilder('p')
+                ->where("SIZE(p.formations) = 0")
                 ->getQuery()
                 ->getResult();
+        $result = $this->createQueryBuilder('p')
+                ->leftJoin('p.formations', 'f')
+                ->groupBy('f.playlist')
+                ->orderBy('SIZE(p.formations)', $ordre)
+                ->having("SIZE(p.formations) <> 0")
+                ->getQuery()
+                ->getResult();
+        if($ordre == "ASC")
+        {
+           return array_merge($playlistsAvecAucuneFormations, $result); 
+        }
+        else
+        {
+           return array_merge($result, $playlistsAvecAucuneFormations);  
+        }
     }
     
 
